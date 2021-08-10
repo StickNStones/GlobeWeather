@@ -10,12 +10,15 @@ export function CityForm(props) {
         console.log(city);
         populateWeatherInfo();
         alert(`submitting City ${city}`);
+        setCity("");
         //props.onForecastChange(e.target.value);
     }
 
     const populateWeatherInfo = async () => {
-        const response = await fetch(`Forecast/${city}`);
-        //const response = await fetch(`Forecast`);
+        const response = await fetch(`Forecasts/${city}`, {
+            method: 'PUT'
+        });
+        //const response = await fetch(`Forecasts`);
         try {
             console.log(response);
             const data = await response.json();
@@ -32,6 +35,7 @@ export function CityForm(props) {
     const handleCityChange = ({ target }) => {
         setCity(target.value)
     }
+
     return (
         <div class="col input-group align-self-end">
             <form class="form-inline" >

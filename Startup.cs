@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using my_new_app.Models;
+using my_new_app.Services;
 
 namespace my_new_app
 {
@@ -45,6 +46,7 @@ namespace my_new_app
 
             services.AddDbContext<ForecastContext>(options =>
 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHttpClient<WeatherService>();
             services.AddMvc();
             
 

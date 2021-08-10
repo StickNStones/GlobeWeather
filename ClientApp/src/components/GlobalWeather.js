@@ -30,7 +30,7 @@ export class GlobalWeather extends Component {
   }
 
     async componentWillMount() {
-        const response = await fetch(`Forecast`);
+        const response = await fetch(`Forecasts`);
         try {
             const data = await response.json();
             this.handleForecastChange({ forecasts: data });
@@ -76,13 +76,13 @@ export class GlobalWeather extends Component {
                   <div class="col">
                   <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
-                              <tr>
-                                  <th>City</th>
-                                  <th>Date</th>
-                                  <th>Update Time</th>
-                        <th>Temp. (C)</th>
-                        <th>Wind Speed (Meters/s)</th>
-                        <th>Summary</th>
+                        <tr>
+                            <th>City</th>
+                            <th>Date</th>
+                            <th>Update Time</th>
+                            <th>Temp. (C)</th>
+                            <th>Wind Speed (Meters/s)</th>
+                            <th>Summary</th>
                       </tr>
                     </thead>
                           <tbody>
