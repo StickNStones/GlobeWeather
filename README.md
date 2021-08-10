@@ -1,8 +1,8 @@
 # GlobeWeather
 Work in progress
 
-Using https://www.npmjs.com/package/react-globe.gl for globe visualization
-Using https://openweathermap.org/ api for data on cities
+* Using https://www.npmjs.com/package/react-globe.gl for globe visualization
+* Using https://openweathermap.org/ api for data on cities
 
 Started with Visual Studio's template for .NET and React projects. PostgreSQL used as database.
 
