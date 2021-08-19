@@ -42,7 +42,20 @@ export class GlobalWeather extends Component {
 
 
     handleForecastChange = (forecastData) => {
-        this.setState({ forecasts: this.state.forecasts.concat(forecastData.forecasts), loading: false });    
+        // if adding new data forecast data will be 1. Otherwise it is adding all previous forecasts for the date
+        if (forecastData.forecasts.length == 1) {
+            const forecastName = (element) => element.name == forecastData.forecasts[0].name;
+            let foundID = this.state.forecasts.findIndex(forecastName);
+            if (foundID != -1){
+                this.state.forecasts[this.state.forecasts.findIndex(forecastName)] = forecastData.forecasts[0];
+            } else {
+                this.state.forecasts = this.state.forecasts.concat(forecastData.forecasts)
+            }
+        }
+        else {
+            this.state.forecasts = this.state.forecasts.concat(forecastData.forecasts)
+        }
+        this.setState({ forecasts: this.state.forecasts, loading: false });    
 
     }
 

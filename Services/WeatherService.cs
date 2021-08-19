@@ -12,10 +12,8 @@ namespace my_new_app.Services
     {
         private const string _API_KEY = "c774bb5e66aa9c7265f60d3d93219462";
         private readonly HttpClient _client;
-        private readonly ForecastContext _context;
         public WeatherService(ForecastContext context, HttpClient client)
         {
-            _context = context;
             _client = client;
         }
 
@@ -25,7 +23,8 @@ namespace my_new_app.Services
             var content = await response.Content.ReadAsStringAsync();
 
             System.Diagnostics.Debug.WriteLine(content);
-            dynamic contentJson = JsonConvert.DeserializeObject(content);
+            object contentJson = JsonConvert.DeserializeObject(content);
+
 
             return contentJson;
         }

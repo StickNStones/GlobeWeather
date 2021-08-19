@@ -36,24 +36,23 @@ namespace my_new_app.Controllers
                         select fi;
             */
             ForecastItem returnedForecast;
-            var queryForecast = _context.ForecastItems.Where(n => n.Date.Date == DateTime.Now.Date && n.Name.ToLower() == forecastCity.ToLower()).FirstOrDefault<ForecastItem>();
+            ForecastItem queryForecast = _context.ForecastItems.Where(n => n.Date.Date == DateTime.Now.Date && n.Name.ToLower() == forecastCity.ToLower()).FirstOrDefault<ForecastItem>();
             //System.Diagnostics.Debug.WriteLine("query forecast below");
             //System.Diagnostics.Debug.WriteLine(queryForecast);
 
+            var response = await _weatherService.AddCityAsync(forecastCity);
+            returnedForecast = new ForecastItem
+            {
+                Date = DateTime.Now,
+                TemperatureC = response.main.temp_max,
+                Summary = response.weather[0].description,
+                Name = response.name,
+                Wind = response.wind.speed,
+                Long = response.coord.lon,
+                Lat = response.coord.lat
+            };
             if (queryForecast == null)
             {
-                dynamic response = await _weatherService.AddCityAsync(forecastCity);
-                returnedForecast = new ForecastItem
-                {
-                    Date = DateTime.Now,
-                    TemperatureC = response.main.temp_max,
-                    Summary = response.weather[0].description,
-                    Name = response.name,
-                    Wind = response.wind.speed,
-                    Long = response.coord.lon,
-                    Lat = response.coord.lat
-                };
-
                 try
                 {
                     _context.Add(returnedForecast);
@@ -66,7 +65,20 @@ namespace my_new_app.Controllers
             }
             else
             {
-                returnedForecast = null;
+                try
+                {
+                    queryForecast.Date = returnedForecast.Date;
+                    queryForecast.TemperatureC = returnedForecast.TemperatureC;
+                    queryForecast.Summary = returnedForecast.Summary;
+                    queryForecast.Wind = returnedForecast.Wind;
+                    _context.Update(queryForecast);
+                    _context.SaveChanges();
+                    returnedForecast = queryForecast;
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                }
             }
 
             return new[] { returnedForecast };
