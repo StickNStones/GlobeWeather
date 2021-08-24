@@ -6,7 +6,7 @@ import './CityInputForm.js';
 import { CityForm } from './CityInputForm.js';
 import { render } from 'react-dom';
 import WeatherGlobe from './WeatherGlobe.js';
-
+import BasicDatePicker from './DatePicker.js';
 
 const divStyle = {
     color: 'blue',
@@ -28,7 +28,6 @@ export class GlobalWeather extends Component {
       this.state = { forecasts: [], loading: true };
 
   }
-
     async componentWillMount() {
         const response = await fetch(`Forecasts`);
         try {
@@ -56,8 +55,12 @@ export class GlobalWeather extends Component {
             this.state.forecasts = this.state.forecasts.concat(forecastData.forecasts)
         }
         this.setState({ forecasts: this.state.forecasts, loading: false });    
-
     }
+
+    handleDateChange = (forecastData) => {
+        this.setState({ forecasts: forecastData.forecasts, loading: false });  
+    }
+
 
     static renderForecastsTable(forecasts) {
 
@@ -136,6 +139,7 @@ export class GlobalWeather extends Component {
                         <p>Turn the globe into kerplunk by typing in city names!</p>
                         <p>Scroll for table</p>
                     </div>
+                    <BasicDatePicker onDateChange={this.handleDateChange} />
                     <CityForm onForecastChange={this.handleForecastChange} />
 
                     </div>
