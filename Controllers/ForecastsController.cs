@@ -113,7 +113,6 @@ namespace my_new_app.Controllers
         [Route("[controller]/{date}")]
         public ForecastItem[] GetAsync(DateTime date)
         {
-            System.Diagnostics.Debug.WriteLine("date is here");
             System.Diagnostics.Debug.WriteLine(date);
             //var fore = _context.ForecastItems.Where(n => n.Date.Date == DateTime.Now.AddDays(-8).Date && n.Name == theLocale).FirstOrDefault<ForecastItem>();
             var curTemperatureData = _context.ForecastItems.Where(n => n.Date.Date == date.Date).Select(index => new ForecastItem
@@ -140,7 +139,6 @@ namespace my_new_app.Controllers
         [Route("[controller]/dates")]
         public DateTime[] GetAsyncDates()
         {
-            System.Diagnostics.Debug.WriteLine("dates r us");
 
             // .tolist() will do lazy loading. This could result in performance issues or overflowed memory if db large
             //var allDistinctDates = _context.ForecastItems.ToList().Select(n => n.Date.Date).Distinct();
@@ -149,16 +147,12 @@ namespace my_new_app.Controllers
             var allDistinctDates = (from t in _context.ForecastItems
                                    select t.Date.Date).Distinct();
 
-            System.Diagnostics.Debug.WriteLine(allDistinctDates);
-            System.Diagnostics.Debug.WriteLine(allDistinctDates.ToArray());
-            System.Diagnostics.Debug.WriteLine(allDistinctDates.ToArray()[0]);
-            foreach (DateTime element in allDistinctDates.ToArray())
+            var arrDates = allDistinctDates.ToArray();
+            if (!Array.Exists(arrDates, x => x == DateTime.Now.Date))
             {
-                System.Diagnostics.Debug.WriteLine(element);
+                arrDates = arrDates.Append(DateTime.Now.Date).ToArray();
             }
-
-
-            return allDistinctDates.ToArray();
+            return arrDates;
 
 
 

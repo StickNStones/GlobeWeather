@@ -6,7 +6,7 @@ import './CityInputForm.js';
 import { CityForm } from './CityInputForm.js';
 import { render } from 'react-dom';
 import WeatherGlobe from './WeatherGlobe.js';
-import BasicDatePicker from './DatePicker.js';
+import ForecastDatePicker from './DatePicker.js';
 
 const divStyle = {
     color: 'blue',
@@ -126,27 +126,32 @@ export class GlobalWeather extends Component {
   }
 
     render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-        : GlobalWeather.renderForecastsTable(this.state.forecasts);
+        let contents = this.state.loading
+          ? <p><em>Loading...</em></p>
+                : GlobalWeather.renderForecastsTable(this.state.forecasts);
+        let dateNow = new Date();
+        if (this.state.forecasts.length > 0) {
+            dateNow = this.state.forecasts[0].date;
+            dateNow = new Date(dateNow);
+        }
 
-    return (
-        <div>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h1 id="tabelLabel" >Globe!</h1>
-                        <p>Turn the globe into kerplunk by typing in city names!</p>
-                        <p>Scroll for table</p>
-                    </div>
-                    <BasicDatePicker onDateChange={this.handleDateChange} />
-                    <CityForm onForecastChange={this.handleForecastChange} />
+        return (
+            <div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <h1 id="tabelLabel" >Globe!</h1>
+                            <p>Turn the globe into kerplunk by typing in city names!</p>
+                            <p>Scroll for table</p>
+                        </div>
+                        <ForecastDatePicker onDateChange={this.handleDateChange} />
+                        <CityForm onForecastChange={this.handleForecastChange} forecastSetup={dateNow}/>
 
-                    </div>
-            </div>
-        {contents}
-      </div>
-    );
+                        </div>
+                </div>
+            {contents}
+          </div>
+        );
     }
 
 }

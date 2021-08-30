@@ -36,7 +36,7 @@ const CustomPickersDay = styled(PickersDay, {
     })
 }));
 
-export default function BasicDatePicker(props) {
+export default function ForecastDatePicker(props) {
     const [value, setValue] = React.useState(Date.now());
     const [dates, setDates] = React.useState([]);
 
@@ -49,14 +49,13 @@ export default function BasicDatePicker(props) {
         const response = await fetch(`Forecasts/${myDate}`, {
             method: 'GET'
         });
-        //const response = await fetch(`Forecasts`);
 
         try {
-            //console.log(response);
             const data = await response.json();
             if (data[0] != null) {
                 props.onDateChange({ forecasts: data });
-
+            } else {
+                props.onDateChange({ forecasts: [] });
             }
         }
         catch (err) {
@@ -66,57 +65,19 @@ export default function BasicDatePicker(props) {
 
     useEffect(() => {
         async function getDates() {
-            console.log("got dates?");
             let response = await fetch(`Forecasts/dates`, {
                 method: 'GET'
             });
             response = await response.json()
-            console.log(response);
             setDates(response.map(x => new Date(x)));
-
         }
         getDates()
-
     }, [])
 
-    function getDayElement(day) {
-        let haveDay = dates.includes(day.Date);
-        console.log(day.Date);
-        console.log(dates)
-        console.log(haveDay);
-        let dateTile = null;
-        if (haveDay) {
-            dateTile = (
-                <Paper>
-                    <Grid item>
-                        {day.getDate()}
-                    </Grid>
-                </Paper>)
-        } else {
-            dateTile = (<Paper >
-                <Grid item>
-                    {day.getDate()}
-                </Grid>
-            </Paper>)
-        }
-        return dateTile;
-    }
 
 
     const renderWeekPickerDay = (date, selectedDates, pickersDayProps) => {
-
-        console.log("render week picker day baby");
-        //console.log(date);
-
-        //console.log(type(date));
-        //console.log(dates)
-        //console.log(type(dates));
-        //console.log(dates[0]);
-        //console.log(type(dates[0]));
-        const haveDay3 = dates.includes(date);
-        //console.log(haveDay3);
         const haveDay = !!dates.find(item => { return item.getTime() == date.getTime() });
-        //console.log(haveDay);
 
         return (
             <CustomPickersDay
