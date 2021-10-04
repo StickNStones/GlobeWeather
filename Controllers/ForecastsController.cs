@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using my_new_app.Models;
-using Npgsql;
 using my_new_app.Services;
 
 namespace my_new_app.Controllers

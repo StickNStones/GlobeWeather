@@ -13,9 +13,11 @@ export function CityForm(props) {
     if (isToday(props.forecastSetup)) {
         const handleChange = (e) => {
             e.preventDefault();
-            populateWeatherInfo();
-            alert(`submitting City ${city}`);
-            setCity("");
+            if (city != "") {
+                populateWeatherInfo();
+                alert(`submitting City ${city}`);
+                setCity("");
+            }
             //props.onForecastChange(e.target.value);
         }
 
@@ -41,7 +43,7 @@ export function CityForm(props) {
         }
 
         return (
-            <div class="col input-group align-self-end">
+            <div class="input-group align-self-end">
                 <form class="form-inline" >
                     <label className="sr-only" for="inlineFormInputName2"> Name </label>
                     <input type="text" className="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="City" value={city} autoComplete="off" onChange={handleCityChange} />

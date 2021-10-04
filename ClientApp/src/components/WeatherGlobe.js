@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useRef, useState} from 'react';
 import Globe from 'react-globe.gl';
-
+import myImage from '../images/earth-planet-night.jpg';
 
 
 const MyGlobe = (props) => {
@@ -9,11 +9,13 @@ const MyGlobe = (props) => {
 
     const getTooltip = d =>
         `      
-        <div style="text-align: center">
+        <div style="text-align: center; font-size: 28px; color: #fff;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;">
         <div><b>${d.name}</b></div>
         <div>${d.tempC}°C</div>
         </div>
         `;
+
 
     useEffect(() => {
         console.log(globeEl.current);
@@ -33,11 +35,19 @@ const MyGlobe = (props) => {
             window.removeEventListener('resize', handleResize);
         }
     })
-
-    return <Globe ref={globeEl} backgroundColor="rgba(0,0,0,0)" width={dimensions.width} height={dimensions.height} globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-        pointsData={props.pointData} pointAltitude="size" pointColor="color"
-        pointLabel={getTooltip}
-    />;
+    if (!props.draw) {
+        console.log(props)
+        return (<Globe ref={globeEl} backgroundColor="rgba(0,0,0,0)" width={dimensions.width} height={dimensions.height} globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+            pointsData={props.pointData} pointAltitude="size" pointColor="color"
+            pointLabel={getTooltip}
+        />)
+    } else {
+        console.log(props.globeImage)
+        return (<Globe ref={globeEl} backgroundColor="rgba(0,0,0,0)" width={dimensions.width} height={dimensions.height} globeImageUrl={props.globeImage} />) }
 };
 
 export default MyGlobe;
+
+
+//<Globe ref={globeEl} backgroundColor="rgba(0,0,0,0)" width={dimensions.width} height={dimensions.height} globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+//<Globe ref={globeEl} backgroundColor="rgba(0,0,0,0)" width={dimensions.width} height={dimensions.height} globeImageUrl={myImage}

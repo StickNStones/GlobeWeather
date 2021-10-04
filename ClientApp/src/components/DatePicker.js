@@ -19,19 +19,20 @@ const CustomPickersDay = styled(PickersDay, {
 (({ haveDay }) => ({
     ...(haveDay && {
         borderRadius: 0,
-        backgroundColor: "#FFC0CB",
-        color: "#FFC00F",
+        backgroundColor: "#e2ddde",
+        color: "#080707",
         '&:hover, &:focus': {
-            backgroundColor: "#BBCC0F"
+            color: "#e2ddde",
+            backgroundColor: "#080707"
         },
     }),
     ...(!haveDay && {
         borderRadius: 0,
         backgroundColor: "#4D4D4D",
         disable: true,
-        color: "#212121",
+        color: "#929292",
         '&:hover, &:focus': {
-            backgroundColor: "#212121"
+            backgroundColor: "#929292"
         },
     })
 }));

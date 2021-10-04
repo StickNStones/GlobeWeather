@@ -8,6 +8,7 @@ import { render } from 'react-dom';
 import WeatherGlobe from './WeatherGlobe.js';
 import ForecastDatePicker from './DatePicker.js';
 
+
 const divStyle = {
     color: 'blue',
     position: 'absolute',
@@ -16,9 +17,11 @@ const divStyle = {
     marginLeft: 0,
     marginRight: 0,
     paddingLeft: 0,
-    paddingRight: 0
+    paddingRight: 0,
+    width: "100vw"
 };
-
+//https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width
+//https://stackoverflow.com/questions/5590214/make-child-div-stretch-across-width-of-page
 
 export class GlobalWeather extends Component {
     static displayName = GlobalWeather.name;
@@ -54,6 +57,7 @@ export class GlobalWeather extends Component {
         else {
             this.state.forecasts = this.state.forecasts.concat(forecastData.forecasts)
         }
+
         this.setState({ forecasts: this.state.forecasts, loading: false });    
     }
 
@@ -67,7 +71,7 @@ export class GlobalWeather extends Component {
         // tempAdjust: To adjust the temp so the bars on the graph are at least tempAdjust value sized when temp is 0
         const tempAdjust = 0.2;
 
-        const gData = [...Array(forecasts.length).keys(forecasts)].map((x, index) => ({
+        const gData = [...Array(forecasts.length).keys(forecasts)].map((index) => ({
             name: forecasts[index].name,
             tempC: forecasts[index].temperatureC,
             lat: forecasts[index].lat,
@@ -77,15 +81,11 @@ export class GlobalWeather extends Component {
          
         }));
 
-        // ['red', 'white', 'blue', 'green']
-        //[Math.round(Math.random() * 3)]
-        //globeEl.current.controls().enableZoom = false;
-        //                        <Globe ref={globeEl} backgroundColor="#CBC3E3" globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg" pointsData = { gData } />
       return (
           <div class="container-sm" style={divStyle}>
-              <div class="row">
-                  <div class="col col-sm-3" >
-                      <WeatherGlobe pointData={gData} />
+              <div class="row" >
+                  <div class="col col-sm-3">
+                      <WeatherGlobe pointData={gData} draw={false}/>
                       </div>
               </div>
               <div class="row" >
@@ -137,19 +137,24 @@ export class GlobalWeather extends Component {
 
         return (
             <div>
-                <div class="container">
+                <div class="container" >
                     <div class="row">
                         <div class="col">
                             <h1 id="tabelLabel" >Globe!</h1>
                             <p>Turn the globe into kerplunk by typing in city names!</p>
                             <p>Scroll for table</p>
                         </div>
-                        <ForecastDatePicker onDateChange={this.handleDateChange} />
-                        <CityForm onForecastChange={this.handleForecastChange} forecastSetup={dateNow}/>
-
+                        <div class="col">
+                            <div style={{ display: "flex", paddingLeft: "70px"}}>
+                                <ForecastDatePicker onDateChange={this.handleDateChange} />
+                            </div>
+                            <div style={{ display: "flex", paddingTop: "5px", paddingLeft: "70px"}}>
+                                <CityForm onForecastChange={this.handleForecastChange} forecastSetup={dateNow} />
+                            </div>
                         </div>
+                    </div>
                 </div>
-            {contents}
+                {contents}
           </div>
         );
     }
